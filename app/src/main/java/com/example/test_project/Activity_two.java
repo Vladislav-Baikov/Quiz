@@ -11,16 +11,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Activity_two<adapter> extends ListActivity {
+public class Activity_two extends AppCompatActivity {
 
     private List<String> topicList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        fillTopicList();
         setContentView(R.layout.activity_two);
-        ListView listView = findViewById(R.id.TopicList);
+        fillTopicList();
+        ListView listView = findViewById(R.id.topicList);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, topicList);
         listView.setAdapter(adapter);
     }
