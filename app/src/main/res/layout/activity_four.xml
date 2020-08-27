@@ -7,19 +7,20 @@
         android:id="@+id/qText"
         android:layout_width="match_parent"
         android:layout_height="170dp"
-        android:textSize="30dp"
+        android:textSize="30sp"
         android:text="This is question text."/>
 
     <View
         android:layout_below="@id/qText"
         android:layout_width="match_parent"
-        android:layout_height="2dp"/>
+        android:layout_height="2dp"
+        android:background="@color/blackColor"/>
 
     <TextView
         android:id="@+id/aText"
         android:layout_below="@id/qText"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:textSize="30dp"
+        android:textSize="30sp"
         android:text="This is answer text."/>
 </RelativeLayout>
