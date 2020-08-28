@@ -9,5 +9,12 @@
     <ListView
         android:id="@+id/questionList"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="300dp"/>
+
+    <ListView
+        android:id="@+id/fileText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/questionList"
+        />
 </RelativeLayout>

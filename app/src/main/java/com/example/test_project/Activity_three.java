@@ -3,6 +3,7 @@ package com.example.test_project;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -15,11 +16,16 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class Activity_three extends AppCompatActivity {
 
+    ListView text;
     private final static String FILE_NAME = "questions.txt";
 
     private List<String> questionList = new ArrayList<>();
@@ -43,15 +49,32 @@ public class Activity_three extends AppCompatActivity {
         });
     }
 
-    private void readFile() {
+    String usText = new String();
+
+    private String readFile() {
+        StringBuilder result = new StringBuilder();
         try {
             BufferedReader br = new BufferedReader(new InputStreamReader(openFileInput("questions.txt")));
+            String currentLine = "";
+            while ((currentLine = br.readLine()) != null) {
+                result.append(currentLine).append("\n");
+            // LOG
+            }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return result.toString();
     }
+
+    private List<String> stringParser() {
+        String stringFromFile = readFile();
+        String[] sortedText = stringFromFile.split("\\D");
+        return new ArrayList<>(Arrays.asList(sortedText));
+    }
+
+    ListView listView = findViewById(R.id.fileText);
     /*public void openText(View view){
 
         FileInputStream fin = null;
