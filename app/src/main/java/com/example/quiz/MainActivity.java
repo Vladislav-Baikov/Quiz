@@ -17,7 +17,7 @@ import java.io.OutputStreamWriter;
 
 public class MainActivity extends AppCompatActivity implements OnClickListener {
 
-    final String FILENAME = "Topics.txt";
+    final String FILENAME = "topics.txt";
     final String LOG_TAG = "myLogs";
     Button btnActTwo;
 
@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnActTwo:
-                File file = new File("/data/data/com.example.test_project/files/Topics.txt");
+                File file = new File("/data/data/com.example.test_project/files/topics.txt");
                 if (!file.exists()) {
                     createTopicFile();
                 }

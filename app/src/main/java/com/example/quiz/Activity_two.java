@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -18,9 +19,10 @@ import java.util.List;
 
 public class Activity_two extends AppCompatActivity {
 
-    final String FILENAME = "Topics.txt";
+    final String FILENAME = "topics.txt";
     final String LOG_TAG = "myLogs";
     private List<String> topicList = new ArrayList<>();
+    private List<String> topicListRd = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,8 +30,9 @@ public class Activity_two extends AppCompatActivity {
         setContentView(R.layout.activity_two);
 
         fillTopicList();
+        readFile();
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, topicList);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, topicListRd);
         ListView listView = findViewById(R.id.topicList);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -39,13 +42,16 @@ public class Activity_two extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        TextView textView = findViewById(R.id.topicListRd);
+        textView.setText(topicListRd.toString());
     }
 
-    void readFile() {
+    private void readFile() {
         try {
             BufferedReader br = new BufferedReader(new InputStreamReader(openFileInput(FILENAME)));
             String str = "";
             while ((str = br.readLine()) != null) {
+                this.topicListRd.add(str);
                 Log.d(LOG_TAG, str);
             }
         } catch (FileNotFoundException e) {
@@ -54,6 +60,11 @@ public class Activity_two extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
+    private void readTopics() {
+
+    }
+
 
     private void fillTopicList() {
         this.topicList.add("First topic");
