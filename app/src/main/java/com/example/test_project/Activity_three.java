@@ -25,7 +25,6 @@ import java.util.stream.Stream;
 
 public class Activity_three extends AppCompatActivity {
 
-    ListView text;
     private final static String FILE_NAME = "questions.txt";
 
     private List<String> questionList = new ArrayList<>();
@@ -74,7 +73,7 @@ public class Activity_three extends AppCompatActivity {
         return new ArrayList<>(Arrays.asList(sortedText));
     }
 
-    ListView listView = findViewById(R.id.fileText);
+    ListView sortedText = findViewById(R.id.fileText);
     /*public void openText(View view){
 
         FileInputStream fin = null;
