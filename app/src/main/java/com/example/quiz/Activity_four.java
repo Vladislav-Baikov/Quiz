@@ -1,4 +1,4 @@
-package com.example.test_project;
+package com.example.quiz;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;

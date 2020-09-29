@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.test_project">
+    package="com.example.quiz">
 
     <uses-permission android:name="android.permision.WRITE_EXTERNAL_STORAGE"/>
 
@@ -11,10 +11,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activity_four"/>
-        <activity android:name=".Activity_three"/>
-        <activity android:name=".Activity_two"/>
-        <activity android:name=".MainActivity">
+        <activity android:name="com.example.quiz.Activity_four"/>
+        <activity android:name="com.example.quiz.Activity_three"/>
+        <activity android:name="com.example.quiz.Activity_two"/>
+        <activity android:name="com.example.quiz.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
