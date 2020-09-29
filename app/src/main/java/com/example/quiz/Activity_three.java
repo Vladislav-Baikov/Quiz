@@ -1,27 +1,15 @@
-package com.example.test_project;
+package com.example.quiz;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Stream;
 
 public class Activity_three extends AppCompatActivity {
 
@@ -34,7 +22,7 @@ public class Activity_three extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_three);
 
-        //fillQuestionList();
+        fillQuestionList();
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, questionList);
         ListView listView = findViewById(R.id.questionList);
@@ -48,7 +36,9 @@ public class Activity_three extends AppCompatActivity {
         });
     }
 
-    String usText = new String();
+
+
+    /*String usText = new String();
 
     private String readFile() {
         StringBuilder result = new StringBuilder();
@@ -100,11 +90,11 @@ public class Activity_three extends AppCompatActivity {
         }
     }*/
 
-    /*private void fillQuestionList() {
+   private void fillQuestionList() {
         questionList.add("question 1");
         questionList.add("question 2");
         questionList.add("question 3");
         questionList.add("question 4");
         questionList.add("question 5");
-    }*/
+    }
 }
