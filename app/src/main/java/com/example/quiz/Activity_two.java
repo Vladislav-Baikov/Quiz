@@ -20,19 +20,22 @@ import java.util.List;
 public class Activity_two extends AppCompatActivity {
 
     final String FILENAME = "topics.txt";
+    final String FILENAMEQ = "questions.txt";
     final String LOG_TAG = "myLogs";
+//    private List<String> topicList = new ArrayList<>();
+    private List<String> fileContent = new ArrayList<>();
     private List<String> topicList = new ArrayList<>();
-    private List<String> topicListRd = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_two);
 
-        fillTopicList();
+//        fillTopicList();
         readFile();
+        readTopics();
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, topicListRd);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, topicList);
         ListView listView = findViewById(R.id.topicList);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -43,7 +46,7 @@ public class Activity_two extends AppCompatActivity {
             }
         });
         TextView textView = findViewById(R.id.topicListRd);
-        textView.setText(topicListRd.toString());
+        textView.setText(topicList.toString());
     }
 
     private void readFile() {
@@ -51,7 +54,7 @@ public class Activity_two extends AppCompatActivity {
             BufferedReader br = new BufferedReader(new InputStreamReader(openFileInput(FILENAME)));
             String str = "";
             while ((str = br.readLine()) != null) {
-                this.topicListRd.add(str);
+                this.fileContent.add(str);
                 Log.d(LOG_TAG, str);
             }
         } catch (FileNotFoundException e) {
@@ -62,13 +65,29 @@ public class Activity_two extends AppCompatActivity {
     }
 
     private void readTopics() {
-
+        try {
+            BufferedReader br = new BufferedReader(new InputStreamReader(openFileInput(FILENAMEQ), "windows-1251"));
+            String str = "";
+            while ((str = br.readLine()) != null) {
+                if (str.contains("<Тема>")) {
+                    String strCut;
+                    strCut = str.replace("<Тема>", "");
+                    strCut = strCut.replace("</Тема>", "");
+                    this.topicList.add(strCut);
+                    Log.d(LOG_TAG, strCut);
+                }
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 
-    private void fillTopicList() {
+    /*private void fillTopicList() {
         this.topicList.add("First topic");
         this.topicList.add("Second topic");
         this.topicList.add("Third topic");
-    }
+    }*/
 }
