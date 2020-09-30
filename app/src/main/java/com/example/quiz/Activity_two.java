@@ -19,19 +19,28 @@ import java.util.List;
 
 public class Activity_two extends AppCompatActivity {
 
-    final String FILENAME = "topics.txt";
-    final String FILENAMEQ = "questions.txt";
+    final String FILENAME = "questions.txt";
     final String LOG_TAG = "myLogs";
-//    private List<String> topicList = new ArrayList<>();
-    private List<String> fileContent = new ArrayList<>();
+
+    private List<String> fileContentList = new ArrayList<>();
     private List<String> topicList = new ArrayList<>();
+
+    private static final class Lazy {
+        private static final Activity_two INST = new Activity_two();
+    }
+    public static Activity_two instOf() {
+        return Lazy.INST;
+    }
+
+    public List<String> getFileContent() {
+        return fileContentList;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_two);
 
-//        fillTopicList();
         readFile();
         readTopics();
 
@@ -54,7 +63,7 @@ public class Activity_two extends AppCompatActivity {
             BufferedReader br = new BufferedReader(new InputStreamReader(openFileInput(FILENAME)));
             String str = "";
             while ((str = br.readLine()) != null) {
-                this.fileContent.add(str);
+                this.fileContentList.add(str);
                 Log.d(LOG_TAG, str);
             }
         } catch (FileNotFoundException e) {
@@ -66,7 +75,7 @@ public class Activity_two extends AppCompatActivity {
 
     private void readTopics() {
         try {
-            BufferedReader br = new BufferedReader(new InputStreamReader(openFileInput(FILENAMEQ), "windows-1251"));
+            BufferedReader br = new BufferedReader(new InputStreamReader(openFileInput(FILENAME), "windows-1251"));
             String str = "";
             while ((str = br.readLine()) != null) {
                 if (str.contains("<Тема>")) {
@@ -83,11 +92,4 @@ public class Activity_two extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-
-
-    /*private void fillTopicList() {
-        this.topicList.add("First topic");
-        this.topicList.add("Second topic");
-        this.topicList.add("Third topic");
-    }*/
 }

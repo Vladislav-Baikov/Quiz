@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,11 +18,13 @@ public class Activity_three extends AppCompatActivity {
 
     private List<String> questionList = new ArrayList<>();
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_three);
 
+        readQuestions();
         fillQuestionList();
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, questionList);
@@ -34,63 +37,16 @@ public class Activity_three extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        TextView textView = findViewById(R.id.questionText);
+        textView.setText(readQuestions().toString());
     }
 
-
-
-    /*String usText = new String();
-
-    private String readFile() {
-        StringBuilder result = new StringBuilder();
-        try {
-            BufferedReader br = new BufferedReader(new InputStreamReader(openFileInput("questions.txt")));
-            String currentLine = "";
-            while ((currentLine = br.readLine()) != null) {
-                result.append(currentLine).append("\n");
-            // LOG
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return result.toString();
+    private List<String> readQuestions() {
+        List<String> abc = Activity_two.instOf().getFileContent();
+        return abc;
     }
 
-    private List<String> stringParser() {
-        String stringFromFile = readFile();
-        String[] sortedText = stringFromFile.split("\\D");
-        return new ArrayList<>(Arrays.asList(sortedText));
-    }
-
-    ListView sortedText = findViewById(R.id.fileText);
-    /*public void openText(View view){
-
-        FileInputStream fin = null;
-        ListView listView = (ListView) findViewById(R.id.questionList);
-        //ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, questionList);
-        try {
-            fin = openFileInput(FILE_NAME);
-            byte[] bytes = new byte[fin.available()];
-            fin.read(bytes);
-            String text = new String(bytes);
-            //listView.setAdapter(adapter);
-        }
-        catch (IOException ex) {
-            Toast.makeText(this, ex.getMessage(), Toast.LENGTH_SHORT).show();
-        }
-        finally {
-            try {
-                if(fin!=null)
-                    fin.close();
-            }
-            catch (IOException ex) {
-                Toast.makeText(this, ex.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        }
-    }*/
-
-   private void fillQuestionList() {
+    private void fillQuestionList() {
         questionList.add("question 1");
         questionList.add("question 2");
         questionList.add("question 3");
