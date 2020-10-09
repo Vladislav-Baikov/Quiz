@@ -34,9 +34,9 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         switch (v.getId()) {
             case R.id.btnActTwo:
                 File file = new File("/data/data/com.example.test_project/files/topics.txt");
-                if (!file.exists()) {
+                /*if (!file.exists()) {
                     createTopicFile();
-                }
+                }*/
                 Intent intent = new Intent(this, Activity_two.class);
                 startActivity(intent);
                 break;
@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         }
     }
 
-    void createTopicFile() {
+    /*void createTopicFile() {
         try {
             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(openFileOutput(FILENAME, MODE_PRIVATE)));
             bw.write("Topic_1\nTopic_2\nTopic_3");
@@ -56,5 +56,5 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 }

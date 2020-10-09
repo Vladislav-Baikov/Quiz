@@ -1,5 +1,6 @@
 package com.example.quiz;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,30 +22,18 @@ public class Activity_two extends AppCompatActivity {
 
     final String FILENAME = "questions.txt";
     final String LOG_TAG = "myLogs";
-
-    private List<String> fileContentList = new ArrayList<>();
     private List<String> topicList = new ArrayList<>();
+    public static List<String> fileContentList = new ArrayList<>();
 
-    private static final class Lazy {
-        private static final Activity_two INST = new Activity_two();
-    }
-    public static Activity_two instOf() {
-        return Lazy.INST;
-    }
-
-    public List<String> getFileContent() {
-        return fileContentList;
-    }
-
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_two);
 
         readFile();
-        readTopics();
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, topicList);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, getTopics());
         ListView listView = findViewById(R.id.topicList);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -55,35 +44,17 @@ public class Activity_two extends AppCompatActivity {
             }
         });
         TextView textView = findViewById(R.id.topicListRd);
-        textView.setText(topicList.toString());
+        textView.setText(String.valueOf(fileContentList.size()));
     }
 
-    private void readFile() {
-        try {
-            BufferedReader br = new BufferedReader(new InputStreamReader(openFileInput(FILENAME)));
-            String str = "";
-            while ((str = br.readLine()) != null) {
-                this.fileContentList.add(str);
-                Log.d(LOG_TAG, str);
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void readTopics() {
+    public void readFile() {
         try {
             BufferedReader br = new BufferedReader(new InputStreamReader(openFileInput(FILENAME), "windows-1251"));
             String str = "";
             while ((str = br.readLine()) != null) {
-                if (str.contains("<Тема>")) {
-                    String strCut;
-                    strCut = str.replace("<Тема>", "");
-                    strCut = strCut.replace("</Тема>", "");
-                    this.topicList.add(strCut);
-                    Log.d(LOG_TAG, strCut);
+                if (str.contains("")) {
+                    fileContentList.add(str);
+                    Log.d(LOG_TAG, str);
                 }
             }
         } catch (FileNotFoundException e) {
@@ -91,5 +62,25 @@ public class Activity_two extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private List<String> getTopics() {
+        String str;
+        for (int i = 0; i < fileContentList.size(); i++) {
+            str = fileContentList.get(i);
+                if (str.contains("<Тема>")) {
+                    String strCut;
+                    strCut = str.replace("<Тема>", "");
+                    strCut = strCut.replace("</Тема>", "");
+                    if (fileContentList.get(i+1).contains("/Тема")) {
+                        str = fileContentList.get(i+1);
+                        strCut = strCut + str;
+                        this.topicList.add(strCut);
+                    }
+                    this.topicList.add(strCut);
+                    Log.d(LOG_TAG, strCut);
+                }
+            }
+        return topicList;
     }
 }
