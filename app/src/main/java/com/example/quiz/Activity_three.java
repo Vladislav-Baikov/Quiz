@@ -1,33 +1,34 @@
 package com.example.quiz;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Activity_three extends AppCompatActivity {
 
     public static List<String> questionList = new ArrayList<>();
-    public static List<String> fileContentList = Activity_two.fileContentList;
+    //public static List<String> fileContentList = Activity_two.fileContentList;
+    public static long topicId;
+    public static int topicInd;
+    public static String topic;
+    //public static List<String> topicListQ = Activity_two.topicListQ;
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_three);
+        topicId = getIntent().getLongExtra("topicId", -1);
 
-        readQuestions();
+        //readQuestions();
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, questionList);
         ListView listView = findViewById(R.id.questionList);
@@ -36,40 +37,29 @@ public class Activity_three extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View itemClicked, int position, long id) {
                 Intent intent = new Intent(getApplicationContext(), Activity_four.class);
-                if (id == 0) {
-                    int topicId = 0;
-                }
                 startActivity(intent);
             }
         });
         TextView textView = findViewById(R.id.questionText);
-        textView.setText(readQuestions().toString());
+        //textView.setText(String.valueOf(topicId) + " " + (topic) + " " + (topicInd) + " " + (topicListQ.toString()));
     }
 
-    private List<String> readQuestions() {
-        String str;
+    /*private List<String> readQuestions() {
         boolean breaker = false;
-        for (int i = 0; i < fileContentList.size(); i++) {
-            str = fileContentList.get(i);
-            if (fileContentList.get(i).contains("<Тема>") && fileContentList.get(i+1).contains("/Тема") && !breaker) {
-                i += 2;
-                /*str = fileContentList.get(i) + " " + fileContentList.get(i+1);
-                questionList.add(str);*/
-                breaker = true;
-                /*if (!str.contains("/Тема")) {
-                    breaker = true;
-                    str = fileContentList.get(i+1);
-                    questionList.add(str);
-                    i+=1;
-                }*/
-            }
-            if (fileContentList.get(i).contains("<Тема>") && breaker && i > 2) {
+        topic = topicListQ.get((int) topicId);
+        topicInd = fileContentList.indexOf(topic);
+        for (int i = topicInd; i < fileContentList.size(); i++) {
+            if (fileContentList.get(i).contains("<Тема>") && breaker) {
                 break;
             }
-            if (fileContentList.get(i).contains(".")) {
-                questionList.add(str);
+            if (fileContentList.get(i).contains("<Тема>") && !breaker) {
+                if (fileContentList.get(i+1).contains("/Тема")) {
+                    i += 2;
+                }
+                breaker = true;
             }
+            questionList.add(fileContentList.get(i));
         }
         return questionList;
-    }
+    }*/
 }
