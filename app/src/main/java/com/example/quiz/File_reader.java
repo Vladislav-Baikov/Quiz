@@ -4,17 +4,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
-public class File_reader extends AppCompatActivity {
 
-    private String FILENAME = "questions.txt";
+public class File_reader {
+
+    private String FILENAME = "/data/data/com.example.test_project/files/questions.txt";
     private String LOG_TAG = "myLogs";
     private List<String> fileContentList = new ArrayList<>();
     private List<String> topicList = new ArrayList<>();
@@ -22,14 +24,15 @@ public class File_reader extends AppCompatActivity {
 
     public void readFile() {
         try {
-            BufferedReader br = new BufferedReader(new InputStreamReader(openFileInput(FILENAME), "windows-1251"));
+            BufferedReader br = new BufferedReader (new InputStreamReader(new FileInputStream(FILENAME), "windows-1251"));
             String str;
             while ((str = br.readLine()) != null) {
                 if (!str.equals("")) {
-                    this.fileContentList.add(str);
+                    fileContentList.add(str);
                     Log.d(LOG_TAG, str);
                 }
             }
+            br.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
