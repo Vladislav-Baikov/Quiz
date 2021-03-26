@@ -14,23 +14,22 @@ import java.util.List;
 
 public class Activity_three extends AppCompatActivity {
 
+    private File_reader fileReader = new File_reader();
     public static List<String> questionList = new ArrayList<>();
-    //public static List<String> fileContentList = Activity_two.fileContentList;
     public static long topicId;
-    public static int topicInd;
+    //public static long topicInd;
     public static String topic;
-    //public static List<String> topicListQ = Activity_two.topicListQ;
 
-    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_three);
         topicId = getIntent().getLongExtra("topicId", -1);
 
-        //readQuestions();
+        fileReader.readFile();
+        fileReader.getQuestions();
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, questionList);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, fileReader.getQuestionList());
         ListView listView = findViewById(R.id.questionList);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -41,25 +40,6 @@ public class Activity_three extends AppCompatActivity {
             }
         });
         TextView textView = findViewById(R.id.questionText);
-        //textView.setText(String.valueOf(topicId) + " " + (topic) + " " + (topicInd) + " " + (topicListQ.toString()));
+        textView.setText(String.valueOf(fileReader.getFileContentList().size()));
     }
-
-    /*private List<String> readQuestions() {
-        boolean breaker = false;
-        topic = topicListQ.get((int) topicId);
-        topicInd = fileContentList.indexOf(topic);
-        for (int i = topicInd; i < fileContentList.size(); i++) {
-            if (fileContentList.get(i).contains("<Тема>") && breaker) {
-                break;
-            }
-            if (fileContentList.get(i).contains("<Тема>") && !breaker) {
-                if (fileContentList.get(i+1).contains("/Тема")) {
-                    i += 2;
-                }
-                breaker = true;
-            }
-            questionList.add(fileContentList.get(i));
-        }
-        return questionList;
-    }*/
 }

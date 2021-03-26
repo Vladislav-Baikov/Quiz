@@ -1,17 +1,13 @@
 package com.example.quiz;
 
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 
 public class File_reader {
@@ -21,6 +17,7 @@ public class File_reader {
     private List<String> fileContentList = new ArrayList<>();
     private List<String> topicList = new ArrayList<>();
     private List<String> topicListQ = new ArrayList<>();
+    private List<String> questionList = new ArrayList<>();
 
     public void readFile() {
         try {
@@ -40,37 +37,65 @@ public class File_reader {
         }
     }
 
-    public List<String> getTopics() {
+    public void getTopics() {
         String str;
         // цикл для записи тем в коллекцию
-        for (int i = 0; i < this.fileContentList.size(); i++) {
-            str = this.fileContentList.get(i);
+        for (int i = 0; i < fileContentList.size(); i++) {
+            str = fileContentList.get(i);
             if (str.contains("<Тема>")) {
-                if (this.fileContentList.get(i+1).contains("/Тема")) {
-                    str = this.fileContentList.get(i) + "\n" + this.fileContentList.get(i+1);
+                if (fileContentList.get(i+1).contains("/Тема")) {
+                    str = fileContentList.get(i) + "\n" + fileContentList.get(i+1);
                 }
                 str = str.replace("<Тема>", "");
                 str = str.replace("</Тема>", "");
-                this.topicList.add(str);
+                topicList.add(str);
                 Log.d(LOG_TAG, str);
             }
-            return this.topicList;
         }
-        // хз, что за цикл, но вроде для списка вопросов нужен
-        for (int i = 0; i < fileContentList.size(); i++) {
-            str = fileContentList.get(i);
-            if (str.contains("<Тема>") && fileContentList.get(i+1).contains("/Тема")) {
-                str = fileContentList.get(i);
-                topicListQ.add(str);
-                i += 2;
-            }
-            if (str.contains("<Тема>") && str.contains("</Тема>")) {
-                str = fileContentList.get(i);
-                topicListQ.add(str);
-            }
-        }
-        return this.topicListQ;
     }
+
+    /*public void getQuestions() {
+        int topicId = 1 + (int) Activity_three.topicId;
+        int topicCnt = 0;
+        for (int i = 0; i < fileContentList.size(); i++) {
+            if (fileContentList.get(i).contains("</Тема>")) {
+                topicCnt++;
+                if (topicCnt == topicId) {
+                    i++;
+                    while (!fileContentList.get(i).contains("<Тема>")) {
+                        questionList.add(fileContentList.get(i));
+                        i++;
+                        if (fileContentList.get(i+1).contains("\n")) {
+                            questionList.add(fileContentList.get(i+1));
+                        }
+                        i++;
+                    }
+                }
+            }
+        }
+    }*/
+
+    public void getQuestions() {
+        int topicId = 1 + (int) Activity_three.topicId;
+        int topicCnt = 0;
+        for (int i = 0; i < fileContentList.size(); i++) {
+            if (topicCnt == topicId) {
+                while (!fileContentList.get(i).contains("<Тема>")) {
+                    questionList.add(fileContentList.get(i));
+                    if (fileContentList.get(i+1).matches("\n")) {
+                        questionList.add(fileContentList.get(i+1));
+                    }
+                    i++;
+                }
+                break;
+            }
+            if (fileContentList.get(i).contains("</Тема>")) {
+                topicCnt++;
+            }
+        }
+    }
+
+
 
     public List<String> getFileContentList() {
         return fileContentList;
@@ -80,7 +105,7 @@ public class File_reader {
         return topicList;
     }
 
-    public List<String> getTopicListQ() {
-        return topicListQ;
+    public List<String> getQuestionList() {
+        return questionList;
     }
 }
